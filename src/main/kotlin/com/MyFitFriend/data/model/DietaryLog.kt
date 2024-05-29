@@ -10,15 +10,12 @@ import org.jetbrains.exposed.sql.Table
 data class DietaryLog(
     val userId: Int,
     val date: String,
-    val partOfDay:Int, //1morning 2 lunch 3 dinner 4 breakfast
+    val partOfDay:Int,
     val foodItem: String,
     val foodId:Int,
     val amountOfFood:Double,
     val lastEditDate:Long,
-//    val calories: Int,
-//    val carbs: Double,
-//    val protein: Double,
-//    val fats: Double,
+
     val dietaryLogId: Int = 0
 )
 
@@ -30,9 +27,5 @@ object DietaryLogs : IntIdTable() {
     val foodId = integer("foodId")
     val foodItem = varchar("foodItem", 255)
     val lastEditDate=long("lastEditDate")
-//    val calories = integer("calories")
-//    val carbs = double("carbs")
-//    val protein = double("protein")
-//    val fats = double("fats")
 
 }

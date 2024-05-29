@@ -15,9 +15,9 @@ class UserServiceIMPL:UserService {
             username = row[Users.username],
             email = row[Users.email],
             passwordHash = row[Users.passwordHash],
-             weight = row[Users.weight],
-             height =row[Users.height],
-             activityLevel =row[Users.activityLevel],
+            weight = row[Users.weight],
+            height =row[Users.height],
+            activityLevel =row[Users.activityLevel],
             age=row[Users.age],
             sex=row[Users.sex],
             lastEditDate = row[Users.lastEditDate]
@@ -25,27 +25,27 @@ class UserServiceIMPL:UserService {
     }
 
     override suspend fun addUser(user: User): Boolean  = dbQuery {
-try {
+        try {
 
 
-    val insertStmt = Users.insert {
-        it[username] = user.username
-        it[email] = user.email
-        it[passwordHash] = user.passwordHash
-        it[weight] = user.weight
-        it[height] = user.height
-        it[activityLevel] = user.activityLevel
-        it[age]=user.age
-        it[sex]=user.sex
-        it[lastEditDate]=System.currentTimeMillis()
-    }
-    insertStmt.insertedCount>0
-}
-    catch(e: Exception) {
-        // Handle potential errors such as connection issues, constraint violations, etc.
-        e.printStackTrace()
-        false
-    }
+            val insertStmt = Users.insert {
+                it[username] = user.username
+                it[email] = user.email
+                it[passwordHash] = user.passwordHash
+                it[weight] = user.weight
+                it[height] = user.height
+                it[activityLevel] = user.activityLevel
+                it[age]=user.age
+                it[sex]=user.sex
+                it[lastEditDate]=System.currentTimeMillis()
+            }
+            insertStmt.insertedCount>0
+        }
+        catch(e: Exception) {
+            // Handle potential errors such as connection issues, constraint violations, etc.
+            e.printStackTrace()
+            false
+        }
 
 
 
@@ -54,7 +54,7 @@ try {
     override suspend fun removeUser(userId: Int): Boolean = dbQuery{
         Users.deleteWhere { Users.userId eq userId } >0
 
-            }
+    }
 
     override suspend fun editUser(userId: Int, user: userEditRequest): Boolean = dbQuery{
         Users.update({Users.userId eq userId}){
@@ -87,11 +87,11 @@ try {
     override suspend fun checkUserPasswordByEmail(email: String, password: String): Boolean = dbQuery {
         val user = Users.select { (Users.email eq email) }.map { resultRowToUser(it) }.singleOrNull()
         val actualPassword=user?.passwordHash ?: ""
-       if(user==null){
-           false
-       }
+        if(user==null){
+            false
+        }
         else
-        checkHashForPassword(password, actualPassword)
+            checkHashForPassword(password, actualPassword)
     }
 
     override suspend fun emailAlreadyUsed(email: String): Boolean= dbQuery{
